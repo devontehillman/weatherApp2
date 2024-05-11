@@ -1,0 +1,23 @@
+{
+  "name": "weatherapp2",
+  "version": "1.0.0",
+  "description": "Command-line tool that retrieves weather data from National Weather Service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devontehillman/weatherApp2.git"
+  },
+  "author": "Dev Hill",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/devontehillman/weatherApp2/issues"
+  },
+  "homepage": "https://github.com/devontehillman/weatherApp2#readme",
+  "dependencies": {
+    "boxen": "^7.1.1",
+    "yargs": "^17.7.2"
+  }
+}
