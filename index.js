@@ -18,11 +18,11 @@ const request = fetch(url)
 					console.log()
 					// returns 100 hours worth of hourly forecast
 					const WeeklyForecastByHour = data.properties.periods
-					// obtaining only the first 12
+					// Obtaining only the first 12
 					const firstTwelvePeriods = WeeklyForecastByHour.slice(0, 12);
 					
 					firstTwelvePeriods.forEach(period => {
-						// Do something with each period object
+						// print first 12
 						console.log(`${period.shortForecast} and ${period.temperature}\n`);
 						
 					});
