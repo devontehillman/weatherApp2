@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const argv = require("yargs/yargs")(process.argv.slice(2))
 	//.usage('Usage: -lat [num] -lon [num]')
 	.option("latitude", {
@@ -21,19 +23,22 @@ const argv = require("yargs/yargs")(process.argv.slice(2))
 		description: "Request for hourly forecast",
 		type: "boolean",
 		demandOption: false, // Required option
-	});
+	})
+	.argv;
+console.log(`Latitude: ${argv.latitude}`);
+console.log(`Longitude: ${argv.longitude}`);
 
 console.log("(%d,%d.%s)", argv.latitude, argv.longitude, argv.hourly);
 
-if (argv.latitude === undefined || argv.longitude === undefined) {
-	const url = "https://api.weather.gov/points/39.7456,-97.0892";
-	getWeather(url);
+if (argv.hourly) {
+	const url = `https://api.weather.gov/points/${argv.latitude},${argv.longitude}`;
+	getWeatherHourly(url);
 } else {
 	const url = `https://api.weather.gov/points/${argv.latitude},${argv.longitude}`;
 	getWeather(url);
 }
 
-function getWeather(url) {
+function getWeatherHourly(url) {
 	//Url for api call
 
 	const request = fetch(url)
@@ -59,5 +64,42 @@ function getWeather(url) {
 				// print first 12
 				console.log(`${period.temperature} with ${period.shortForecast} \n`);
 			});
+		});
+}
+
+function getWeather(url) {
+	//Url for api call
+
+	const request = fetch(url)
+		//convert json text to json object
+		.then((response) => response.json())
+		//getting the endpoint url form json object that contains the forecast
+		.then((data) => {
+			const endpoint = data.properties.forecast;
+			console.log(endpoint)
+			return fetch(endpoint);
+		})
+		// converting json text to json object
+		.then((response) => response.json())
+		// getting the weather information form the text
+		.then((data) => {
+			console.log();
+			
+			const WeeklyForecast = data.properties.periods;
+			
+			// console.log(WeeklyForecast[0])
+			// console.log(WeeklyForecast[0].temperature);
+			// console.log(WeeklyForecast[0].relativeHumidity['value']);
+			// console.log(WeeklyForecast[0].windSpeed);
+			// console.log(WeeklyForecast[0].detailedForecast);
+			
+			const weather = {
+				temp: WeeklyForecast[0].temperature,
+				humidity: WeeklyForecast[0].relativeHumidity['value'],
+				windSpeed: WeeklyForecast[0].windSpeed,
+				detailedForecast: WeeklyForecast[0].detailedForecast
+			} 
+		
+			return weather
 		});
 }
