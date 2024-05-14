@@ -1,6 +1,8 @@
 #!/usr/bin/env node
+import boxen from 'boxen';
+import yargs from 'yargs/yargs';
 
-const argv = require("yargs/yargs")(process.argv.slice(2))
+const argv = yargs(process.argv.slice(2))
 	//.usage('Usage: -lat [num] -lon [num]')
 	.option("latitude", {
 		alias: "lat",
@@ -25,6 +27,7 @@ const argv = require("yargs/yargs")(process.argv.slice(2))
 		demandOption: false, // Required option
 	})
 	.argv;
+
 console.log(`Latitude: ${argv.latitude}`);
 console.log(`Longitude: ${argv.longitude}`);
 
@@ -84,22 +87,20 @@ function getWeather(url) {
 		// getting the weather information form the text
 		.then((data) => {
 			console.log();
-			
+
 			const WeeklyForecast = data.properties.periods;
-			
-			// console.log(WeeklyForecast[0])
-			// console.log(WeeklyForecast[0].temperature);
-			// console.log(WeeklyForecast[0].relativeHumidity['value']);
-			// console.log(WeeklyForecast[0].windSpeed);
-			// console.log(WeeklyForecast[0].detailedForecast);
-			
-			const weather = {
-				temp: WeeklyForecast[0].temperature,
-				humidity: WeeklyForecast[0].relativeHumidity['value'],
-				windSpeed: WeeklyForecast[0].windSpeed,
-				detailedForecast: WeeklyForecast[0].detailedForecast
-			} 
-		
-			return weather
+
+			//console.log(WeeklyForecast[0])
+			const temp = String(WeeklyForecast[0].temperature);
+			const humidity = String(WeeklyForecast[0].relativeHumidity['value'])
+			const windSpeed = WeeklyForecast[0].windSpeed
+			const forecast = WeeklyForecast[0].detailedForecast
+
+
+			const boxenOptions = { title: 'Weather App', padding: 1, margin: 1, borderStyle: 'double' };
+			const message = `Temperature: ${temp}\nHumidity: ${humidity}\nWind Speed:${windSpeed}\n\n${forecast}`
+
+			console.log(boxen(message, boxenOptions));
+
 		});
 }
