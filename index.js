@@ -1,4 +1,11 @@
 #!/usr/bin/env node
+/*
+Purpose: Weather app Command-line tool that retrieves weather data from National Weather 
+Service. 
+Author: Devonte Hillman 
+Date: May 14, 2024
+*/
+
 import boxen from 'boxen';
 import yargs from 'yargs/yargs';
 
