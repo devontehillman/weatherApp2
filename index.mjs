@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
-Purpose: Weather app Command-line tool that retrieves weather data from National Weather 
+Purpose: This is a Weather app Command-line tool that retrieves weather data from National Weather. App was originally in common js and this is converted to es6. 
 Service. 
 Author: Devonte Hillman 
 Date: May 14, 2024
@@ -49,8 +49,8 @@ if (argv.hourly) {
 
 async function getWeatherHourly(url) {
 	// Url for api call
-
 	const response = await fetch(url);
+	
 	// convert json text to json object
 	const json = await response.json();
 	
